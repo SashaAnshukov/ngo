@@ -5,13 +5,22 @@
 </template>
 
 <script>
-export default {
-  methods: {
-    test() {
-      console.log("test");
+
+  export default {
+    mounted () {
+      const { $baseUrl } = useNuxtApp()
+      this.fetchData($baseUrl);
     },
-  },
-};
+    methods: {
+      test() {
+        console.log("test");
+      },
+      async fetchData(baseUrl) {
+        const data = await $fetch(`${baseUrl}/api/authors?populate=*`);
+        console.log(data);
+      },
+    },
+  };
 </script>
 
 <style scoped>

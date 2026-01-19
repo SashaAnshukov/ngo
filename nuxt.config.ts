@@ -21,4 +21,10 @@ export default defineNuxtConfig({
     },
   },
   css: ['@/assets/normalize.css'],
+  runtimeConfig: {
+    apiKey: '', // Default to an empty string, automatically set at runtime using process.env.NUXT_API_KEY
+    public: {
+      baseUrl: process.env.BASE_URL || "http://localhost:1337"
+    }
+  }
 })

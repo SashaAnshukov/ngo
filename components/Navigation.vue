@@ -1,10 +1,9 @@
 <template>
   <nav class="navigation">
     <Logo /> 
-    <NuxtLink  class="link" to="/">Main</NuxtLink >
-    <NuxtLink  class="link" to="/about">About page</NuxtLink >
-    <button class="button">Enter</button>
-    <Modal />
+    <NuxtLink  v-for="elem in linksArray" class="link" :to="elem.to" :key="elem.title">{{elem.title}}</NuxtLink >
+    <button @click ="toggleModal" class="button">Enter</button>
+    <Modal v-show="showModal" @modalClose="toggleModal"/>
   </nav>
 </template>
 
@@ -13,6 +12,20 @@
   export default {
     components: {
       Logo
+    },
+    data () {
+      return {
+        linksArray: [
+          {to: "/", title: "Main"},
+          {to: "/about", title: "About page"},
+        ],
+        showModal: false
+      }
+    },
+    methods: {
+      toggleModal() {
+        this.showModal = !this.showModal
+      },
     }
   }
 </script>

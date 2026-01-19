@@ -1,24 +1,36 @@
 <template>
   <article class="modal-wrap">
     <div class="container">
-      <span class="icon-close" />
+      <span class="icon-close" @click="$emit('modalClose')" />
       <h1>Вход</h1>
-      <label class="label">
-        Email
-        <input class="input" type="email">
-      </label>
-      <label class="label">
-        Пароль
-        <input class="input" type="password">
-      </label>
-      <button class="button">Войти</button>
+      <form>
+        <label class="label">
+          Email
+          <input class="input" type="email">
+        </label>
+        <label class="label">
+          Пароль
+          <input class="input" type="password">
+        </label>
+        <button type="submit" @click.prevent.stop="hadleFormSubmit" class="button">Войти</button>
+      </form>
     </div>
   </article>
 </template>
 
 <script>
   export default {
-    
+    props: {
+      onToggle: {
+        type: Function,
+        default: () => {},
+      },
+    },
+    methods: {
+      hadleFormSubmit() {
+        
+      },
+    }
   }
 </script>
 
