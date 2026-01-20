@@ -20,6 +20,9 @@ export default defineNuxtConfig({
       ],
     },
   },
+  modules: [
+    '@pinia/nuxt',
+  ],
   css: ['@/assets/normalize.css'],
   runtimeConfig: {
     apiKey: '', // Default to an empty string, automatically set at runtime using process.env.NUXT_API_KEY

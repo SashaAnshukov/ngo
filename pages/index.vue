@@ -1,40 +1,68 @@
 <template>
   <div class="container">
-    <Test />
+    <!-- <Test /> -->
+
+    <h1>{{ store.name }}</h1>
+    <UserCard 
+      v-for="guest in guests" 
+      :key="guest.id"
+      :id="guest.id"
+      :name="guest.name"
+      :email="guest.email"
+      :location="guest.location"    
+      :avatar="guest.avatar"
+    />
   </div>
 </template>
+
+<script setup>
+  import {useGuestsStore} from "@/store/guests"
+  const store = useGuestsStore()
+
+  const config = useRuntimeConfig()
+
+  const { data: guests, error } = await useAsyncData(
+    'guests', 
+    () => $fetch(`${config.public.baseUrl}/api/authors?populate=*`),
+    {
+      transform: (res) => {
+        console.log("RES", res)
+        return res.data.map(guest => ({
+          id: guest.id, 
+          name: guest.name, 
+          email: guest.email,
+          location: guest.location, 
+          avatar: guest.avatar.formats?.medium.url,
+        }))
+      }
+    }
+  )
+</script>
 
 <script>
 
   export default {
+    data () {
+      return {
+      }
+    },
+    asyncData () {
+
+    },
     mounted () {
-      const { $baseUrl } = useNuxtApp()
-      this.fetchData($baseUrl);
     },
     methods: {
-      test() {
-        console.log("test");
-      },
-      async fetchData(baseUrl) {
-        const data = await $fetch(`${baseUrl}/api/authors?populate=*`);
-        console.log(data);
-      },
+      // async fetchData(baseUrl) {
+      //   await $fetch(`${baseUrl}/api/authors?populate=*`).then((res) => {
+      //     this.guests = res.data  
+      //     console.log(this.guests);
+      //   });
+      // },
     },
   };
 </script>
 
 <style scoped>
-  .container {
-    background: url('/images/bgd.jpeg') center no-repeat;
-    background-size: cover;
-    margin: 0 auto;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-  }
-
   .title {
     font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont,
       "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;

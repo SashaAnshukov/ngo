@@ -1,7 +1,14 @@
 <template>
   <nav class="navigation">
     <Logo /> 
-    <NuxtLink  v-for="elem in linksArray" class="link" :to="elem.to" :key="elem.title">{{elem.title}}</NuxtLink >
+    <NuxtLink  
+      v-for="elem in linksArray" 
+      class="link" 
+      :to="elem.to" 
+      :key="elem.title"
+    >
+      {{elem.title}}
+    </NuxtLink >
     <button @click ="toggleModal" class="button">Enter</button>
     <Modal v-show="showModal" @modalClose="toggleModal"/>
   </nav>
