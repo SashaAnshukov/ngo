@@ -2,9 +2,9 @@
   <div class="container">
     <!-- <Test /> -->
 
-    <h1>{{ store.name }}</h1>
+    <!-- <h1>{{ name }}</h1> -->
     <UserCard 
-      v-for="guest in guests" 
+      v-for="guest in guestStore.guests" 
       :key="guest.id"
       :id="guest.id"
       :name="guest.name"
@@ -17,26 +17,31 @@
 
 <script setup>
   import {useGuestsStore} from "@/store/guests"
-  const store = useGuestsStore()
-
+  //import { storeToRefs } from 'pinia'
   const config = useRuntimeConfig()
+  const guestStore = useGuestsStore()
+  await guestStore.FETCH_GUESTS(config.public.baseUrl)
+  
 
-  const { data: guests, error } = await useAsyncData(
-    'guests', 
-    () => $fetch(`${config.public.baseUrl}/api/authors?populate=*`),
-    {
-      transform: (res) => {
-        console.log("RES", res)
-        return res.data.map(guest => ({
-          id: guest.id, 
-          name: guest.name, 
-          email: guest.email,
-          location: guest.location, 
-          avatar: guest.avatar.formats?.medium.url,
-        }))
-      }
-    }
-  )
+  // const { data, error } = await useAsyncData(
+  //   'guests', 
+  //   () => $fetch(`${config.public.baseUrl}/api/authors?populate=*`),
+  //   {
+  //     transform: (res) => {
+  //       console.log("RES", res)
+  //       return res.data.map(guest => ({
+  //         id: guest.id, 
+  //         name: guest.name, 
+  //         email: guest.email,
+  //         location: guest.location, 
+  //         avatar: guest.avatar.formats?.medium.url,
+  //       }))
+  //     }
+  //   }
+  // )
+  // if (data.value) {
+  //   guestStore.SET_GUESTS(data.value)
+  // }
 </script>
 
 <script>

@@ -1,19 +1,26 @@
 <template>
-  <article class="container">
+  <article class="container" v-if="currentGuest">
     <div class="block">
-      <img class="image" src="https://media.newyorker.com/photos/5f7f4082b71f1266ff78ebb0/master/pass/201019_r37206.jpg" />
-      <h1 class="title">Name of an artist</h1>
-      <em class="subtitle">Country</em>
+      <img class="image" :src="config.public.baseUrl + currentGuest.avatar" />
+      <h1 class="title">{{ currentGuest.name }}</h1>
+      <em class="subtitle">{{ currentGuest.location }}</em>
       <p>Description of an artist</p>
     </div>
   </article>
 </template>
 
+<script setup>
+  import {useGuestsStore} from "@/store/guests"
+  const config = useRuntimeConfig()
+  const guestStore  = useGuestsStore()
+  const route = useRoute()
+  await guestStore.FETCH_GUESTS(config.public.baseUrl)
+  const id = Number(route.params.id)
+  const currentGuest = computed(() => guestStore.GET_CURRENT_GUEST(id))
+</script>
+
 <script>
   export default {
-    mounted() {
-      console.log(this.$route)
-    }
   }
 </script>
 
@@ -28,7 +35,7 @@
   }
   .image {
     width: 100%;
-    height: 300px;
+    height: 400px;
     object-fit: cover;
   }
   .title {

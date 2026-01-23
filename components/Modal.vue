@@ -1,6 +1,6 @@
 <template>
   <article class="modal-wrap">
-    <div class="container">
+    <div class="modal-container" v-click-away="onClickAway">
       <span class="icon-close" @click="$emit('modalClose')" />
       <h1>Вход</h1>
       <form>
@@ -19,7 +19,10 @@
 </template>
 
 <script>
+  import { mixin as VueClickAway } from "vue3-click-away";
+
   export default {
+    mixins: [VueClickAway],
     props: {
       onToggle: {
         type: Function,
@@ -30,6 +33,9 @@
       hadleFormSubmit() {
         
       },
+      onClickAway(event) {
+        this.$emit('modalClose')
+      }
     }
   }
 </script>
@@ -44,7 +50,7 @@
     background: rgba(0,0,0,0.5);
   }
 
-  .container {
+  .modal-container {
     width: 400px;
     padding: 30px;
     margin: 0 auto;

@@ -10,7 +10,7 @@
       {{elem.title}}
     </NuxtLink >
     <button @click ="toggleModal" class="button">Enter</button>
-    <Modal v-show="showModal" @modalClose="toggleModal"/>
+    <Modal v-if="showModal" @modalClose="closeModal"/>
   </nav>
 </template>
 
@@ -32,6 +32,9 @@
     methods: {
       toggleModal() {
         this.showModal = !this.showModal
+      },
+      closeModal() {
+        this.showModal = false
       },
     }
   }

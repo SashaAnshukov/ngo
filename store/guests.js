@@ -1,11 +1,42 @@
 import { defineStore } from 'pinia'
 
-// You can name the return value of `defineStore()` anything you want,
-// but it's best to use the name of the store and surround it with `use`
-// and `Store` (e.g. `useUserStore`, `useCartStore`, `useProductStore`)
-// the first argument is a unique id of the store across your application
 export const useGuestsStore = defineStore('guests', {
   state: () => ({
-    name: 'Hello world',
+    guests: [],
+    loading: false,
+    error: null,
   }),
+  getters: {
+    GET_CURRENT_GUEST: (state) => (id) => {
+      console.log("IDD!", id)
+      return state.guests.find(guest => guest.id === id)
+    }
+  },
+  actions: {
+    async FETCH_GUESTS(baseUrl) {
+      if (this.guests.length) {
+        return
+      } else
+      this.loading = true
+      this.error = null
+      try {
+        const data = await $fetch(`${baseUrl}/api/authors?populate=*`)
+        this.guests = data.data.map(guest => ({
+          id: guest.id,
+          name: guest.name,
+          email: guest.email,
+          location: guest.location,
+          avatar: guest.avatar.formats?.medium.url,
+        }))
+      } catch (e) {
+        this.error = e.message
+      } finally {
+        this.loading = false
+      }
+    }
+    // SET_GUESTS (data) {
+    //   console.log("data", data)
+    //   this.guests = data || []
+    // }
+  }
 })
