@@ -3,20 +3,68 @@
     <div class="modal-container" v-click-away="onClickAway">
       <span class="icon-close" @click="$emit('modalClose')" />
       <h1>Вход</h1>
-      <form>
-        <label class="label">
+      <form @submit.prevent="handleSubmit" novalidate >
+        <label class="label" for="e-mail">
           Email
-          <input class="input" type="email">
+          <input 
+              class="input" 
+              type="email" 
+              id="e-mail" 
+              v-model="formData.email" 
+              placeholder="Введите 1@mail.ru для теста"
+              required>
         </label>
-        <label class="label">
+        <label class="label" for="password">
           Пароль
-          <input class="input" type="password">
+          <input 
+            class="input" 
+            type="password" 
+            id="password" 
+            v-model="formData.password"
+            placeholder="Введите 123456 для теста" 
+            required
+          >
         </label>
-        <button type="submit" @click.prevent.stop="hadleFormSubmit" class="button">Войти</button>
+        <button class="button" type="submit" :disabled="isLoading">
+          {{ isLoading ? 'Отправка...' : 'Войти' }}
+        </button>
       </form>
     </div>
   </article>
 </template>
+
+<script setup>
+  import { toast } from 'vue3-toastify';
+  const notify = () => {
+    toast.info('toastify success', { autoClose: 5000 });
+  };
+
+  const formData = ref({
+    email: '',
+    password: '',
+  });
+
+  const isLoading = ref(false);
+
+  const handleSubmit = async () => {
+  isLoading.value = true;
+  try {
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    if (formData.value.email === '1@mail.ru' && formData.value.password === '123456') {
+      toast.success('Login successful! Redirecting...', {
+        position: toast.POSITION.TOP_RIGHT, // Per-toast options
+      });
+      // дальше можно куда-нибудь редиректнуть router.push('/')
+    } else {
+      toast.error('Неправильная почта или пароль');
+    }
+  } catch (error) {
+    toast.error('Произошла ошибка при входе в систему.');
+  } finally {
+    isLoading.value = false;
+  }
+};
+</script>
 
 <script>
   import { mixin as VueClickAway } from "vue3-click-away";
@@ -30,9 +78,9 @@
       },
     },
     methods: {
-      hadleFormSubmit() {
-        
-      },
+      // hadleFormSubmit() {
+      //   toast.error('Invalid username or password.');
+      // },
       onClickAway(event) {
         this.$emit('modalClose')
       }
