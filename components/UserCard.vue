@@ -1,6 +1,6 @@
 <template>
   <NuxtLink :to="`/id/${id}`" class="card">
-    <img class="image" :src="$baseUrl + avatar">
+    <img v-if="imageSrc" class="image" :src="imageSrc" alt="">
     <div class="text">
       <h2>{{ name }}</h2>
       <em class="email">{{ email }}</em>
@@ -18,6 +18,23 @@
       location: { type: String, default: ""},
       avatar: { type: String, default: ""},
     },
+    computed: {
+      imageSrc() {
+        return this.resolveUrl(this.$baseUrl, this.avatar)
+      },
+    },
+    methods: {
+      resolveUrl(baseUrl, path) {
+        //console.log("path", path)
+        if (/^https?:\/\//i.test(path)) {
+          return path
+        }
+        if (!path) {
+          return null
+        } else
+        return new URL(path, baseUrl).toString()
+      },
+    }
   }
 </script>
 

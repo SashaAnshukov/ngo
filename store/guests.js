@@ -8,7 +8,6 @@ export const useGuestsStore = defineStore('guests', {
   }),
   getters: {
     GET_CURRENT_GUEST: (state) => (id) => {
-      console.log("IDD!", id)
       return state.guests.find(guest => guest.id === id)
     }
   },
@@ -26,7 +25,7 @@ export const useGuestsStore = defineStore('guests', {
           name: guest.name,
           email: guest.email,
           location: guest.location,
-          avatar: guest.avatar.formats?.medium.url,
+          avatar: guest.avatar?.formats?.medium.url,
         }))
       } catch (e) {
         this.error = e.message

@@ -1,6 +1,6 @@
-# Nuxt Minimal Starter
-
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+# Учебный проект:
+Front - Vue3, Nuxt4, pinia, vue3-click-away, vue3-toastify
+Back - на strapi в отдельном репозитории ngo-backend
 
 ## Setup
 

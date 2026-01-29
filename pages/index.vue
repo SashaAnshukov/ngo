@@ -44,29 +44,6 @@
   // }
 </script>
 
-<script>
-
-  export default {
-    data () {
-      return {
-      }
-    },
-    asyncData () {
-
-    },
-    mounted () {
-    },
-    methods: {
-      // async fetchData(baseUrl) {
-      //   await $fetch(`${baseUrl}/api/authors?populate=*`).then((res) => {
-      //     this.guests = res.data  
-      //     console.log(this.guests);
-      //   });
-      // },
-    },
-  };
-</script>
-
 <style scoped>
   .title {
     font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont,

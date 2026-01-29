@@ -1,7 +1,7 @@
 <template>
   <article class="container" v-if="currentGuest">
     <div class="block">
-      <img class="image" :src="config.public.baseUrl + currentGuest.avatar" />
+      <img v-if="avatarUrl" class="image" :src="avatarUrl" alt="" />
       <h1 class="title">{{ currentGuest.name }}</h1>
       <em class="subtitle">{{ currentGuest.location }}</em>
       <p>Description of an artist</p>
@@ -17,11 +17,13 @@
   await guestStore.FETCH_GUESTS(config.public.baseUrl)
   const id = Number(route.params.id)
   const currentGuest = computed(() => guestStore.GET_CURRENT_GUEST(id))
-</script>
 
-<script>
-  export default {
-  }
+  const avatarUrl = computed(() => {
+    const path = currentGuest.value?.avatar
+    if (!path) return null
+    if (/^https?:\/\//i.test(path)) return path
+    return new URL(path, config.public.baseUrl).toString()
+  })
 </script>
 
 <style scoped>
